@@ -1,0 +1,48 @@
+* CMSIS STM32 Programming
+
+** Hardware Requirements
+*** Hardware
+**** [[https://stm32world.com/wiki/Black_Pill][Blackpill]] clone (STM32F401CCU6)
+[[file:res/blackpill.webp]]
+**** RS232 FTDI module and usb-cable if needed
+[[file:res/rs232-ftdi.webp]]
+**** st-link v2 clone
+[[file:res/st-link-v2.webp]]
+**** jumper wires
+[[file:res/jumpers.webp]]
+**** breadboard
+[[file:res/breadboard.webp]]
+*** Software
+**** [[https://developer.arm.com/downloads/-/gnu-rm][GNU Arm Embedded Toolchain]]
+**** [[https://github.com/stlink-org/stlink][st-link]]
+**** [[https://www.st.com/en/embedded-software/stsw-stm32065.html][STM32F4 DSP and standard peripherals library]]
+
+
+** Software setup on Arch Linux
+
+Install needed packages
+
+#+BEGIN_SRC shell
+  sudo pacman -S make unzip gcc-arm-none-eabi-bin stlink
+#+END_SRC
+
+Download the standard peripheral library from [[https://www.st.com/en/embedded-software/stsw-stm32065.html][st.com]]
+
+Unzip the library
+
+#+BEGIN_SRC
+unzip en.stsw-stm32065_v1-9-0.zip
+#+END_SRC
+
+The folder created during extraction is the ~STM_COMMON~ directory referenced in the ~Makefile~
+
+Done.
+
+** Build & Flash
+
+Edit the ~Makefile~ variables as needed.
+
+~STM_COMMON~ should point to the extracted directory from the downloaded library.
+
+make build
+make burn
