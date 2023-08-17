@@ -44,5 +44,7 @@ Edit the ~Makefile~ variables as needed.
 
 ~STM_COMMON~ should point to the extracted directory from the downloaded library.
 
+#+BEGIN_SRC shell
 make build
 make burn
+#+END_SRC

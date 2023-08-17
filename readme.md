@@ -1,24 +1,24 @@
 # Table of Contents
 
-1.  [CMSIS STM32 Programming](#org2a55ff3)
-    1.  [Hardware Requirements](#org57b1cf2)
-        1.  [Hardware](#org044ba03)
-        2.  [Software](#orgdb1076d)
-    2.  [Software setup on Arch Linux](#org6eb58d7)
-    3.  [Build & Flash](#orgfa857db)
+1.  [CMSIS STM32 Programming](#org0fdd125)
+    1.  [Hardware Requirements](#org6c1c0aa)
+        1.  [Hardware](#orgaef0d77)
+        2.  [Software](#orga872039)
+    2.  [Software setup on Arch Linux](#org0c713b3)
+    3.  [Build & Flash](#orgc1b1b97)
 
 
-<a id="org2a55ff3"></a>
+<a id="org0fdd125"></a>
 
 # CMSIS STM32 Programming
 
 
-<a id="org57b1cf2"></a>
+<a id="org6c1c0aa"></a>
 
 ## Hardware Requirements
 
 
-<a id="org044ba03"></a>
+<a id="orgaef0d77"></a>
 
 ### Hardware
 
@@ -43,7 +43,7 @@
     ![img](res/breadboard.webp)
 
 
-<a id="orgdb1076d"></a>
+<a id="orga872039"></a>
 
 ### Software
 
@@ -54,7 +54,7 @@
 3.  [STM32F4 DSP and standard peripherals library](https://www.st.com/en/embedded-software/stsw-stm32065.html)
 
 
-<a id="org6eb58d7"></a>
+<a id="org0c713b3"></a>
 
 ## Software setup on Arch Linux
 
@@ -73,7 +73,7 @@ The folder created during extraction is the `STM_COMMON` directory referenced in
 Done.
 
 
-<a id="orgfa857db"></a>
+<a id="orgc1b1b97"></a>
 
 ## Build & Flash
 
@@ -81,5 +81,5 @@ Edit the `Makefile` variables as needed.
 
 `STM_COMMON` should point to the extracted directory from the downloaded library.
 
-make build
-make burn
+    make build
+    make burn
