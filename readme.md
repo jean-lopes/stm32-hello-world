@@ -1,24 +1,25 @@
+
 # Table of Contents
 
-1.  [CMSIS STM32 Programming](#org0fdd125)
-    1.  [Hardware Requirements](#org6c1c0aa)
-        1.  [Hardware](#orgaef0d77)
-        2.  [Software](#orga872039)
-    2.  [Software setup on Arch Linux](#org0c713b3)
-    3.  [Build & Flash](#orgc1b1b97)
+1.  [CMSIS STM32 Programming](#org7ca71c5)
+    1.  [Hardware Requirements](#org0db8be5)
+        1.  [Hardware](#org7c5b7a2)
+        2.  [Software](#org053e9f7)
+    2.  [Software setup on Arch Linux](#orgba859bd)
+    3.  [Build & Flash](#org7af6963)
 
 
-<a id="org0fdd125"></a>
+<a id="org7ca71c5"></a>
 
 # CMSIS STM32 Programming
 
 
-<a id="org6c1c0aa"></a>
+<a id="org0db8be5"></a>
 
 ## Hardware Requirements
 
 
-<a id="orgaef0d77"></a>
+<a id="org7c5b7a2"></a>
 
 ### Hardware
 
@@ -43,7 +44,7 @@
     ![img](res/breadboard.webp)
 
 
-<a id="orga872039"></a>
+<a id="org053e9f7"></a>
 
 ### Software
 
@@ -51,10 +52,10 @@
 
 2.  [st-link](https://github.com/stlink-org/stlink)
 
-3.  [STM32F4 DSP and standard peripherals library](https://www.st.com/en/embedded-software/stsw-stm32065.html)
+3.  [STM32CubeF4 Library](https://github.com/STMicroelectronics/STM32CubeF4)
 
 
-<a id="org0c713b3"></a>
+<a id="orgba859bd"></a>
 
 ## Software setup on Arch Linux
 
@@ -64,22 +65,21 @@ Install needed packages
 
 Download the standard peripheral library from [st.com](https://www.st.com/en/embedded-software/stsw-stm32065.html)
 
-Unzip the library
+    git clone https://github.com/STMicroelectronics/STM32CubeF4
 
-    unzip en.stsw-stm32065_v1-9-0.zip
-
-The folder created during extraction is the `STM_COMMON` directory referenced in the `Makefile`
+The cloned folder is the `STM_COMMON` directory referenced in the `Makefile`
 
 Done.
 
 
-<a id="orgc1b1b97"></a>
+<a id="org7af6963"></a>
 
 ## Build & Flash
 
 Edit the `Makefile` variables as needed.
 
-`STM_COMMON` should point to the extracted directory from the downloaded library.
+`STM_COMMON` should point to the cloned repository.
 
     make build
     make burn
+
