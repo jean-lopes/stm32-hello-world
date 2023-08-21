@@ -1,62 +1,40 @@
-PREFIX = arm-none-eabi
-CC = $(PREFIX)-gcc
-OBJCOPY = $(PREFIX)-objcopy
+STM_COMMON=/home/jean-lopes/stm32/STM32CubeF4
 
-STM_COMMON = /home/jean-lopes/stm32/STM32F4xx_DSP_StdPeriph_Lib_V1.9.0
-
-MCU=STM32F401xx
-
-LDFILE=stm32f401ccux.ld
-
-#search for startup ASM (.s) files in STM Library
-vpath %.s $(STM_COMMON)/Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates/TrueSTUDIO
-# search for '.h' files in STM Library
-vpath %.h $(STM_COMMON)/Libraries/STM32F4xx_StdPeriph_Driver/inc
-# search for '.c' files in STM Library
-vpath %.c $(STM_COMMON)/Libraries/STM32F4xx_StdPeriph_Driver/src
-vpath %.c $(STM_COMMON)/Libraries/CMSIS/Device/ST/STM32F4xx/Source/Templates
+vpath %.s $(STM_COMMON)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc
+vpath %.c $(STM_COMMON)/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates
+vpath %.c $(STM_COMMON)/Drivers/STM32F4xx_HAL_Driver/Src
 
 CFLAGS  = -g -O2 -Wall -std=gnu99
-CFLAGS += -DUSE_STDPERIPH_DRIVER
-CFLAGS += -D$(MCU)
-CFLAGS += -T$(LDFILE)
-CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m4 -mthumb-interwork
-CFLAGS += -mfloat-abi=hard -mfpu=fpv4-sp-d16 -specs=nosys.specs
-CFLAGS += -I$(STM_COMMON)/Libraries/CMSIS/Include
-CFLAGS += -I$(STM_COMMON)/Libraries/CMSIS/Device/ST/STM32F4xx/Include
-CFLAGS += -I$(STM_COMMON)/Libraries/STM32F4xx_StdPeriph_Driver/inc
+CFLAGS += -DUSE_FULL_LL_DRIVER -DSTM32F401xC -Tstm32f401ccux.ld
+CFLAGS += --specs=nosys.specs -mcpu=cortex-m4 -mlittle-endian
+CFLAGS += -mthumb -mthumb-interwork -mfloat-abi=hard -mfpu=fpv4-sp-d16
+CFLAGS += -I$(STM_COMMON)/Drivers/CMSIS/Include
+CFLAGS += -I$(STM_COMMON)/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+CFLAGS += -I$(STM_COMMON)/Drivers/STM32F4xx_HAL_Driver/Inc
 CFLAGS += -I.
 
-C_HEADERS = stm32f4xx_conf.h
+STM_SRCS = 					\
+	stm32f4xx_ll_gpio.c 	\
+	system_stm32f4xx.c   	\
+	startup_stm32f401xc.s
 
-C_SOURCES = main.c
-
-# STM Library sources
-C_SOURCES += system_stm32f4xx.c
-C_SOURCES += stm32f4xx_rcc.c
-C_SOURCES += stm32f4xx_gpio.c
-C_SOURCES += stm32f4xx_usart.c
-
-ASM_SOURCES = startup_stm32f401xx.s
-
-SRCS= $(C_SOURCES) $(ASM_SOURCES)
-
-OBJS = $(C_SOURCES:.c=.o) $(ASM_SOURCES:.s=.o)
-
-.PHONY: all build clean burn
-
-all: clean build
+.PHONY: clean
 
 clean:
-	rm -f $(OBJS) main.elf main.hex main.bin
+	rm -f *.o main.elf main.bin
 
-main.elf: $(SRCS)
-	$(CC) $(CFLAGS) $^ -o $@
+main.elf: $(wildcard *.c) $(STM_SRCS)
+	arm-none-eabi-gcc $(CFLAGS) $^ -o $@
 
 main.bin: main.elf
-	$(OBJCOPY) -O binary main.elf main.bin
-
-build: main.bin
+	arm-none-eabi-objcopy -O binary main.elf main.bin
 
 burn: main.bin
 	st-flash write main.bin 0x08000000
+
+build: main.elf
+
+ocd:
+	openocd \
+		--file /usr/share/openocd/scripts/interface/stlink-v2-1.cfg \
+		--file /usr/share/openocd/scripts/target/stm32f4x.cfg -c init
