@@ -15,6 +15,8 @@ CFLAGS += -I.
 
 STM_SRCS = 					\
 	stm32f4xx_ll_gpio.c 	\
+	stm32f4xx_ll_rcc.c	 	\
+	stm32f4xx_ll_usart.c 	\
 	system_stm32f4xx.c   	\
 	startup_stm32f401xc.s
 

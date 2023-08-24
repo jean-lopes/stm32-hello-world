@@ -1,0 +1,5 @@
+*.elf
+*.bin
+/GTAGS
+/GRTAGS
+/GPATH
