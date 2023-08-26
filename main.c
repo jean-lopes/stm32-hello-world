@@ -30,7 +30,7 @@ int main(void) {
     .output_type = GPIO_OUTPUT_PUSHPULL,
     .init_value = false,
     .speed = GPIO_SPEED_FREQ_LOW,
-      .reversed = true,
+    .reversed = true,
   };
 
   const struct usart_cfg usart2_cfg = {
