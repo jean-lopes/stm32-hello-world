@@ -6,6 +6,7 @@
 #include "module.h"
 #include "usart.h"
 #include "console.h"
+#include "log.h"
 
 #define PROMPT "> "
 
@@ -73,11 +74,11 @@ int32_t console_run(void) {
       continue;
     }
 
-    /* if (c == LOG_TOGGLE_CHAR) { */
-    /*   log_toggle(); */
-    /*   printc("\n<Logging %s>\n", log_is_active() ? "on" : "off"); */
-    /*   continue; */
-    /* } */
+    if (c == LOG_TOGGLE_CHAR) {
+      log_toggle();
+      printc("\n<Logging %s>\n", log_is_active() ? "on" : "off");
+      continue;
+    }
 
     if (isprint(c)) {
       if (state.num_read_buffer_chars < (CONSOLE_READ_BUFFER_SIZE-1)) {
