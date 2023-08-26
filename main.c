@@ -7,6 +7,7 @@
 #include "module.h"
 #include "gpio.h"
 #include "usart.h"
+#include "console.h"
 
 int main(void) {
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -75,7 +76,7 @@ int main(void) {
   LL_USART_SetDataWidth(USART2, LL_USART_DATAWIDTH_8B);
   LL_USART_SetStopBitsLength(USART2, LL_USART_STOPBITS_1);
   LL_USART_SetParity(USART2, LL_USART_PARITY_NONE);
-  LL_USART_SetTransferDirection(USART2, LL_USART_DIRECTION_TX);
+  LL_USART_SetTransferDirection(USART2, LL_USART_DIRECTION_TX_RX);
   LL_USART_SetHWFlowCtrl(USART2, LL_USART_HWCONTROL_NONE);
   LL_USART_SetOverSampling(USART2, LL_USART_OVERSAMPLING_16);
   LL_USART_Enable(USART2);
@@ -84,10 +85,17 @@ int main(void) {
 
   //  gpio_start(inputs, num_inputs, outputs, num_outputs);
 
+  struct console_cfg console_cfg;
+  console_set_default_config(&console_cfg);
+
   usart_init(USART_2, &usart2_cfg);
+  console_init(&console_cfg);
+
   usart_start(USART_2);
 
   while (1) {
+    console_run();
+
     int32_t value = gpio_get(&button);
 
     if (value == 1) {

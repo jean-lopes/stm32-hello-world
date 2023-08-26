@@ -109,8 +109,7 @@ int32_t usart_start(enum usart_id id) {
     return MOD_ERR_BAD_INSTANCE;
   }
 
-  NVIC_SetPriority(irq_type,
-                   NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0,0));
+  NVIC_SetPriority(irq_type, NVIC_EncodePriority(NVIC_GetPriorityGrouping(), 0, 0));
   NVIC_EnableIRQ(irq_type);
 
   return SUCCESS;

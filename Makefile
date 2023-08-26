@@ -20,7 +20,9 @@ STM_SRCS = 					\
 	system_stm32f4xx.c   	\
 	startup_stm32f401xc.s
 
-.PHONY: clean
+.PHONY: ocd
+
+build: main.elf
 
 clean:
 	rm -f *.o main.elf main.bin
@@ -33,8 +35,6 @@ main.bin: main.elf
 
 burn: main.bin
 	st-flash write main.bin 0x08000000
-
-build: main.elf
 
 ocd:
 	openocd \
