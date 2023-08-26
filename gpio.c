@@ -1,5 +1,8 @@
 #include "gpio.h"
 #include "module.h"
+#include "log.h"
+
+static int32_t log_level = LOG_LEVEL_TRACE;
 
 uint32_t port_to_periph_adress(gpio_port *port);
 
@@ -11,8 +14,11 @@ int32_t gpio_init(const struct gpio_in inputs[],
   const struct gpio_in *input;
   const struct gpio_out *output;
 
+  log_info("Initializing inputs");
   for (idx = 0; idx < num_inputs; idx++) {
     input = &inputs[idx];
+
+    log_trace("Initializing input %s", input->name);
 
     if (input == 0)
       return MOD_ERR_INIT;
@@ -21,8 +27,11 @@ int32_t gpio_init(const struct gpio_in inputs[],
     LL_GPIO_SetPinMode(input->port, input->pin, LL_GPIO_MODE_INPUT);
   };
 
+  log_info("Initializing outputs");
   for (idx = 0; idx < num_outputs; idx++) {
     output = &outputs[idx];
+
+    log_trace("Initializing output %s", output->name);
 
     if (output == 0)
       return MOD_ERR_INIT;
@@ -33,6 +42,8 @@ int32_t gpio_init(const struct gpio_in inputs[],
     LL_GPIO_SetPinMode(output->port, output->pin, LL_GPIO_MODE_OUTPUT);
     gpio_set(output, output->init_value);
   }
+
+  log_info("Initialization complete");
 
   return SUCCESS;
 }
@@ -96,6 +107,8 @@ uint32_t port_to_periph_adress(gpio_port *port) {
 }
 
 int32_t gpio_get(const struct gpio_in *in) {
+  log_trace("in: %s", in->name);
+
   if (in == 0)
     return MOD_ERR_ARGS;
 
@@ -105,6 +118,8 @@ int32_t gpio_get(const struct gpio_in *in) {
 }
 
 int32_t gpio_get_out(const struct gpio_out *out) {
+  log_trace("out: %s", out->name);
+
   if (out == 0)
     return MOD_ERR_ARGS;
 
@@ -114,6 +129,8 @@ int32_t gpio_get_out(const struct gpio_out *out) {
 }
 
 int32_t gpio_set(const struct gpio_out *out, uint32_t value) {
+  log_trace("out: %s, value: %d", out->name, value);
+
   if (out == 0)
     return MOD_ERR_ARGS;
 
