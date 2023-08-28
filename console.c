@@ -7,11 +7,7 @@
 #include "usart.h"
 #include "console.h"
 #include "log.h"
-
-#define PROMPT "> "
-
-#define CONSOLE_PRINT_BUFFER_SIZE 240
-#define CONSOLE_READ_BUFFER_SIZE   80
+#include "cmd.h"
 
 struct console_state {
     struct console_cfg cfg;
@@ -51,7 +47,7 @@ int32_t console_run(void) {
 
   if (!state.first_run_done) {
     state.first_run_done = true;
-    printc("%s", PROMPT);
+    printc("%s", CONSOLE_PROMPT);
   }
 
   while (usart_getc(state.cfg.usart_id, &c)) {
@@ -59,8 +55,9 @@ int32_t console_run(void) {
       state.read_buffer[state.num_read_buffer_chars] = '\0';
       printc("\n");
       //TODO execute command
+      cmd_execute(state.read_buffer);
       state.num_read_buffer_chars = 0;
-      printc("%s", PROMPT);
+      printc("%s", CONSOLE_PROMPT);
 
       continue;
     }

@@ -3,6 +3,10 @@
 
 #include "usart.h"
 
+#define CONSOLE_PROMPT            "> "
+#define CONSOLE_PRINT_BUFFER_SIZE 240
+#define CONSOLE_READ_BUFFER_SIZE   80
+
 struct console_cfg {
   enum usart_id usart_id;
 };

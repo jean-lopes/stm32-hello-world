@@ -95,15 +95,6 @@ int main(void) {
 
   while (1) {
     console_run();
-
-    int32_t value = gpio_get(&button);
-
-    if (value == 1) {
-      usart_putc(USART_2, 'o');
-      gpio_set(&led, true);
-    } else {
-      gpio_set(&led, false);
-    }
   }
 
   return 0;
