@@ -1,0 +1,37 @@
+@startuml
+scale 3
+
+state identifier
+state value
+state space
+state asterisk
+state left_trim
+
+[*]        -[hidden]down-> left_trim
+left_trim  -[hidden]down-> identifier
+identifier -[hidden]down-> space
+space      -[hidden]down-> asterisk
+space      -[hidden]down-> [*]
+asterisk   -[hidden]down-> value
+
+[*] -> identifier : [a-zA-Z]
+[*] -> left_trim  : \s
+
+left_trim -> left_trim  : \s
+left_trim -> identifier : [a-zA-Z]
+
+identifier -> identifier : [a-zA-Z0-9-_]
+identifier -> space      : [^a-zA-Z0-9-_]
+
+value -> value : [0-9]
+value -> space : [^0-9]
+
+asterisk -> space
+
+space -> space      : \s
+space -> identifier : [a-zA-Z]
+space -> value      : [0-9]
+space -> asterisk   : \*
+space -> [*]        : \0
+
+@enduml
